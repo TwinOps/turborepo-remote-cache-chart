@@ -1,0 +1,15 @@
+apiVersion: v2
+name: turborepo-remote-cache
+description: TwinOps delivery WebApp NodeJS + React
+type: application
+version: 0.1.3
+appVersion: "1.5.1"
+home: https://github.com/TwinOps/twinops/tree/main/packages/turborepo-remote-cache-chart
+keywords:
+  - turborepo
+  - remote cache
+sources:
+  - https://github.com/TwinOps/twinops/tree/main/packages/turborepo-remote-cache-chart
+maintainers:
+  - name: TwinOps
+    url: https://github.com/TwinOps

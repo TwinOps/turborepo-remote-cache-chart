@@ -1,0 +1,63 @@
+env:
+  open:
+    NODE_ENV: production
+    PORT: 3000
+    LOG_LEVEL: info
+    STORAGE_PROVIDER: local
+    STORAGE_PATH: ./cache
+  secret:
+    TURBO_TOKEN:
+    S3_ACCESS_KEY:
+    S3_SECRET_KEY:
+    S3_REGION:
+    S3_ENDPOINT:
+  existingSecret:
+  existingSecretMappings:
+    TURBO_TOKEN:
+    S3_ACCESS_KEY:
+    S3_SECRET_KEY:
+    S3_REGION:
+    S3_ENDPOINT:
+
+deployment:
+  annotations: {}
+  labels: {}
+
+image: fox1t/turborepo-remote-cache
+
+imageConfig:
+  tag: 1.5.1
+  pullPolicy: IfNotPresent
+
+ingress:
+  enabled: false
+  pathType: "ImplementationSpecific"
+  className:
+  labels: {}
+  annotations: {}
+  hosts:
+    []
+    # - name: remote-cache.your-org.com
+    #   path: /
+    #   tls: false
+    # - name: remote-cache.your-org.com
+    #   path: /
+  tls:
+    []
+    # - hosts:
+    #     - remote-cache.your-org.com
+    #   secretName: remote-cache.your-org.com-tls
+
+replicaCount: 1
+
+secret:
+  labels: {}
+
+service:
+  serviceName:
+  type: ClusterIP
+  # clusterIP: None
+  externalPort: 3000
+  nodePort:
+  annotations: {}
+  labels: {}
