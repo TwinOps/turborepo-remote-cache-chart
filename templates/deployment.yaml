@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "remotecache.fullname" . }}
+  {{- with .Values.deployment.annotations }}
+  annotations:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+  labels:
+    {{- include "remotecache.labels" . | nindent 4 }}
+    {{- with .Values.deployment.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "remotecache.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.pod.annotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "remotecache.selectorLabels" . | nindent 8 }}
+        {{- if .Values.podLabels }}
+        {{- toYaml .Values.podLabels | nindent 8 }}
+        {{- end }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image }}:{{ .Values.imageConfig.tag }}"
+          imagePullPolicy: {{ .Values.imageConfig.pullPolicy }}
+          ports:
+            - containerPort: 3000
+              name: http
+          env:
+          {{- range $name, $value := .Values.env.open }}
+          {{- if not (empty $value) }}
+          - name: {{ $name | quote }}
+            value: {{ $value | quote }}
+          {{- end }}
+          {{- end }}
+          {{- if .Values.env.existingSecret }}
+          {{- $secret_name := .Values.env.existingSecret }}
+          {{- range $name, $key := .Values.env.existingSecretMappings }}
+          {{- if not ( empty $key) }}
+          - name: {{ $name | quote }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ $secret_name | quote }}
+                key: {{ $key | quote }}
+          {{- end }}
+          {{- end }}
+          {{- end }}
+          {{- $secret_name := include "remotecache.fullname" . }}
+          {{- range $name, $value := .Values.env.secret }}
+          {{- if not ( empty $value) }}
+          - name: {{ $name | quote }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ $secret_name }}
+                key: {{ $name | quote }}
+          {{- end }}
+          {{- end }}

@@ -1,0 +1,40 @@
+{{- if .Values.ingress.enabled }}
+{{- $apiVersions := .Capabilities.APIVersions -}}
+{{- $serviceName := .Values.service.servicename | default (include "remotecache.fullname" .) -}}
+{{- $servicePort := .Values.service.externalPort | default 8080 -}}
+{{- $pathType := .Values.ingress.pathType | default "Prefix" | quote -}}
+apiVersion: {{- if $apiVersions.Has "networking.k8s.io/v1" }} networking.k8s.io/v1 {{- else }} networking.k8s.io/v1beta1 {{- end }}
+kind: Ingress
+metadata:
+  name: {{ include "remotecache.fullname" . }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  labels:
+    {{- include "remotecache.labels" . | nindent 4 }}
+    {{- with .Values.ingress.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  {{- if $apiVersions.Has "networking.k8s.io/v1" }}
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- end }}
+  rules:
+  {{- range .Values.ingress.hosts }}
+  - host: {{ .name }}
+    http:
+      paths:
+      - path: {{ default "/" .path | quote }}
+        pathType: {{ $pathType }}
+        backend:
+          service:
+            name: {{ $serviceName }}
+            port:
+              number: {{ $servicePort }}
+  {{- end }}
+  {{- if .Values.ingress.tls }}
+  tls:
+  {{- toYaml .Values.ingress.tls | nindent 4 }}
+  {{- end }}
+{{- end }}
