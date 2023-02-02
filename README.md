@@ -23,7 +23,7 @@ This chart bootstraps an instance of Turborepo Remote Cache server. The image us
 
 | Turborepo Remote Cache Version | Kubernetes Version | Helm Chart Version |
 | ------------------------------ | ------------------ | ------------------ |
-| 1.5.1                          | 1.22               | 0.1.2              |
+| 1.10.2                         | 1.22               | 0.2.0              |
 
 ## Installing the chart
 
@@ -35,7 +35,7 @@ WIP - Helm repo in progress
 
 | Parameter          | Description                               | Default        |
 | ------------------ | ----------------------------------------- | -------------- |
-| `image.tag`        | `fox1t/turborepo-remote-cache` image tag. | `1.5.1`        |
+| `image.tag`        | `fox1t/turborepo-remote-cache` image tag. | `1.10.2`       |
 | `image.pullPolicy` | Image pull policy                         | `IfNotPresent` |
 
 ### Deployment
@@ -61,7 +61,7 @@ WIP - Helm repo in progress
 | ------------------------------ | ------------------------------------------------------------ | --------------------------- |
 | `ingress.enabled`              | Flag to enable Ingress                                       | `false`                     |
 | `ingress.labels`               | Ingress additional labels                                    | `{}`                        |
-| `ingress.hosts[0].name`        | Hostname to your SonarQube installation                      | `remote-cache.your-org.com` |
+| `ingress.hosts[0].name`        | Hostname to your remote cache installation                   | `remote-cache.your-org.com` |
 | `ingress.hosts[0].path`        | Path within the URL structure                                | `/`                         |
 | `ingress.hosts[0].serviceName` | Optional field to override the default serviceName of a path | `None`                      |
 | `ingress.hosts[0].servicePort` | Optional field to override the default servicePort of a path | `None`                      |
