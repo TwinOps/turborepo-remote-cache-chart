@@ -26,7 +26,7 @@ deployment:
 image: fox1t/turborepo-remote-cache
 
 imageConfig:
-  tag: 1.5.1
+  tag: 1.10.2
   pullPolicy: IfNotPresent
 
 ingress:
