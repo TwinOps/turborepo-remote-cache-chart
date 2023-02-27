@@ -11,6 +11,7 @@ env:
     S3_SECRET_KEY:
     S3_REGION:
     S3_ENDPOINT:
+    ABS_CONNECTION_STRING:
   existingSecret:
   existingSecretMappings:
     TURBO_TOKEN:
@@ -18,6 +19,7 @@ env:
     S3_SECRET_KEY:
     S3_REGION:
     S3_ENDPOINT:
+    ABS_CONNECTION_STRING:
 
 deployment:
   annotations: {}
@@ -26,7 +28,7 @@ deployment:
 image: fox1t/turborepo-remote-cache
 
 imageConfig:
-  tag: 1.10.2
+  tag: 1.13.2
   pullPolicy: IfNotPresent
 
 ingress:
@@ -47,6 +49,9 @@ ingress:
     # - hosts:
     #     - remote-cache.your-org.com
     #   secretName: remote-cache.your-org.com-tls
+
+pod:
+  annotations:
 
 replicaCount: 1
 
